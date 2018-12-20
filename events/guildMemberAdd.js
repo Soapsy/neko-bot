@@ -6,20 +6,9 @@ if (!channel || !member) return;
   const greeting = new Discord.RichEmbed()
   .setTitle('New member joined')
   .setColor(randclr)
-  .setThumbnail()
+  .setThumbnail(member.user.avatarURL)
   .setDescription(`${member.nickname}+ присоединился(ась) к нам!`)
-  .setAuthor(client.user)
-  .setFooter(`Теперь нас: ${membercount}`)
-  
-  
-const msg = reaction.message;
-const txt = msg.content;
-const chn = msg.channel;
-if(chn.type === "text" && chn.name.toLowerCase() === "role-management"){
-		const roleObj = msg.guild.roles.find(r => r.name === msg.content);
-		if(!roleObj) return;
-		const memberObj = msg.guild.members.get(user.id);
-		if(!memberObj) return;
-		memberObj.addRole(roleObj).catch(console.error);
-		console.log('a reaction has been added');
-}}
+  .setAuthor(client.user, client.user.avatarURL)
+  .setFooter(`Теперь нас ${member.guild.memberCount}`);
+  channel.send(greeting).catch(console.error);
+}
