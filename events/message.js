@@ -11,7 +11,7 @@ const chan = message.channel;
         const message_text = message.content;
         console.log(message_text);
         const rnd = Math.round(Math.floor(Math.random() * (11- 1)) + 1);
-        if (rnd === 10|| 2 || 6 || 8 || 4) {
+        if ((rnd === 10) || (rnd === 4) || (rnd === 6) || (rnd === 2)) {
             if ((message.content.toLowerCase().includes("баклажан")) || (message.content.toLowerCase().includes("eggplant"))) {
                 if (message.author.bot) return; //	защита от лупов
                 message.react("🍆").catch(console.error);
