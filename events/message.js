@@ -22,7 +22,7 @@ const chan = message.channel;
 
         if (chan.type === "text" && chan.name.toLowerCase() === "role-management") {
           let roleName;
-              if(message.content.startsWith("\@"))
+              if(message.content.startsWith(\^(<@|)
               {
                 roleName = message.content.slice(1);
               }

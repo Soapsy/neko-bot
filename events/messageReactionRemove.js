@@ -14,8 +14,6 @@ const chn = msg.channel;
               console.log(roleName + " role name");
 if(chn.type === "text" && chn.name.toLowerCase() === "role-management"){
 		const roleObj = msg.guild.roles.find(r => r.name === roleName);
-if(chn.type === "text" && chn.name.toLowerCase() === "role-management"){
-		const roleObj = msg.guild.roles.find(r => r.name === txt);
 		if(!roleObj) return;
 		const memberObj = msg.guild.members.get(user.id);
 		if(!memberObj) return;
