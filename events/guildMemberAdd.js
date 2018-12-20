@@ -1,13 +1,16 @@
 exports.run = (client, member, user) => {
-const RichEmbed = require(`discord.js`);
+const Discord = require(`discord.js`);
 const channel = member.guild.channels.find(ch => ch.name === 'general');
 if (!channel || !member) return;
   const randclr = Math.floor(Math.random() * 16777214) + 1;
-  const greeting = new RichEmbed()
+  const greeting = new Discord.RichEmbed()
   .setTitle('New member joined')
   .setColor(randclr)
   .setThumbnail()
-  .setDescription(`${
+  .setDescription(`${member.nickname}+ присоединился(ась) к нам!`)
+  .setAuthor(client.user)
+  .setFooter(`Теперь нас: ${membercount}`)
+  
   
 const msg = reaction.message;
 const txt = msg.content;
