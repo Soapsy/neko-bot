@@ -11,7 +11,7 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
     const sqlite3 = require('sqlite3').verbose();
 
     //открываем бд
-    let db = new sqlite3.Database('../bot2/data/profiles.db', (err) => {
+    let db = new sqlite3.Database('./.data/profiles.db', (err) => {
         if (err) {
             console.error(err.message);
         }
