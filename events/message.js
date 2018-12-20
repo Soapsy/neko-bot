@@ -10,8 +10,8 @@ const chan = message.channel;
         console.log(reactions[0]);
         const message_text = message.content;
         console.log(message_text);
-        const rnd = Math.round(Math.floor(Math.random() * (11 - 1)) + 1);
-        if (rnd === 10) {
+        const rnd = Math.round(Math.floor(Math.random() * (11- 1)) + 1);
+        if (rnd === 10, 2, 6, 8, 4) {
             if ((message.content.toLowerCase().includes("баклажан")) || (message.content.toLowerCase().includes("eggplant"))) {
                 if (message.author.bot) return; //	защита от лупов
                 message.react("🍆").catch(console.error);
