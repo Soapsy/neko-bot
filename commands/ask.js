@@ -8,7 +8,7 @@ exports.run = (client, message, args) => {
 	const rnd = Math.floor(Math.random() * (leng - 0));
     const rnd2 = Math.floor(Math.random() * (3 - 0));
     let reply = randcha[rnd];
-    if(rnd2 == 0){
+    if(rnd2 == 0 && emoji){
       reply += " " + emoji;
     }
     message.channel.send(reply).catch(console.error);
