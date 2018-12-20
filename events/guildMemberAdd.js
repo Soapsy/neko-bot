@@ -7,7 +7,7 @@ if (!channel || !member) return;
   .setTitle(`${member.user.username} присоединился(ась) к нам!`)
   .setColor(randclr)
   .setThumbnail(member.user.avatarURL)
-  .setDescription(`Добро пожаловать!\n Надеемся, тебе здесь понравится.`)
+  .setDescription(`Добро пожаловать!\nНадеемся, тебе здесь понравится :ayeesizayoi:`)
   .setAuthor(client.user.username, client.user.avatarURL)
   .setFooter(`Теперь нас  ${member.guild.memberCount}`);
   channel.send(greeting).catch(console.error);
