@@ -21,7 +21,17 @@ const chan = message.channel;
 
 
         if (chan.type === "text" && chan.name.toLowerCase() === "role-management") {
-            const roleObj = message.guild.roles.find(r => r.name === message.content);
+          let roleName;
+              if(message.content.startsWith("\@"))
+              {
+                roleName = message.content.slice(1);
+              }
+              else
+              {
+                roleName = message.content;
+              }
+              console.log(roleName + " role name");
+            const roleObj = message.guild.roles.find(r => r.name === roleName);
             if (roleObj) {
                 message.react("✅");
                 console.log("Role created");
