@@ -32,7 +32,7 @@ fs.readdir("./events/", (err, files) => {
 	if (err) return console.error(err);
 	var count = 0;
 	files.forEach(file => {
-		let evFunc = require(`./events/${file}`);
+		let evFunc = require(`/events/${file}`);
 		let evName = file.split(".")[0];
 		client.on(evName, (...args) => evFunc.run(client, ...args));
 		count++;
