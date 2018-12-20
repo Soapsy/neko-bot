@@ -2,22 +2,24 @@
   "//1": "describes your app and its dependencies",
   "//2": "https://docs.npmjs.com/files/package.json",
   "//3": "updating this file will download and update your packages",
-  "name": "hello-sqlite",
-  "version": "0.0.1",
-  "description": "A simple Node app with SQLite as a database management system, instantly up and running.",
-  "main": "server.js",
+  "name": "Vyfbot",
+  "version": "1.0.1",
+  "description": "A simple bot for the Discord",
+  "main": "botto.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node botto.js"
   },
   "dependencies": {
     "express": "^4.16.4",
-    "sqlite3": "^4.0.4"
+    "sqlite3": "^4.0.4",
+    "enmap": "^4.5.0",
+    "discord.js": "^11.4.2"
   },
   "engines": {
     "node": "8.x"
   },
   "repository": {
-    "url": "https://glitch.com/edit/#!/hello-sqlite"
+    "url": "https://glitch.com/edit/#!/sudnobot"
   },
   "license": "MIT",
   "keywords": [
