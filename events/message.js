@@ -3,6 +3,7 @@ exports.run = (client, message) => {
 const prefix = config.prefix;
 const chan = message.channel;
 
+  //реакшены
     if (!message.author.bot) {
         const o = require('../data/reacts.json');
         console.log(o['a\*']);
@@ -13,13 +14,13 @@ const chan = message.channel;
         const rnd = Math.round(Math.floor(Math.random() * (11- 1)) + 1);
         if ((rnd === 10) || (rnd === 4) || (rnd === 6) || (rnd === 2)) {
             if ((message.content.toLowerCase().includes("баклажан")) || (message.content.toLowerCase().includes("eggplant"))) {
-                if (message.author.bot) return; //	защита от лупов
+                if (message.author.bot) return; //	реакты для ботов выключены
                 message.react("🍆").catch(console.error);
             }
             reactions.forEach(({regexp, text}) => regexp.test(message_text) ? message.channel.send(text).catch(console.error) : console.log("no"));
         }
 
-
+  //Присваивание счетчика ролей
         if (chan.type === "text" && chan.name.toLowerCase() === "role-management") {
             const roleObj = message.guild.roles.find(r => message.content.includes(r.name));
             if (roleObj) {

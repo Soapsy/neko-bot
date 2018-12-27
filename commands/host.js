@@ -3,6 +3,7 @@ require('dotenv').config();
 
 if (message.author.bot)return;
 
+  
 if (message.guild.channels.some(chan => chan.name === "host-list")) {
     const hostchannel = message.guild.channels.find(channl => channl.name === "host-list");
     const request = require('request');
