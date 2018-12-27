@@ -11,7 +11,7 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
     let rawr;
     const sqlite3 = require('sqlite3').verbose();
 
-    //открываем бд
+    //открываем бд,если её нет - создаем новую
     let db = new sqlite3.Database('./.data/profiles.db', (err) => {
         if (err) {
             console.error(err.message);
@@ -19,17 +19,20 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
         console.log('Connected to the database');
     });
 
-    //типо синхронность
+    
 
     var boober;
+  
+  //строгий порядок выполнения действий с бд
     db.serialize(() => {
 
         // ебашим таблицу если её нет
         db.run('CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, user TEXT, guild TEXT, hosting TEXT, steam TEXT)');
 
+      //переменная для проверки состояния хоста
 		var hostcheck = 0;
 
-
+//проверяем хостит ли данный пользователь
         db.all(`SELECT DISTINCT hosting hoststate FROM users WHERE id = ?`, [message.author.id], (err, rows) => {
             rows.forEach((row) => {
                 if(err){console.error(err);}
@@ -47,6 +50,9 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                 }
             });
             //const regex = /\s*\d*\s*/g;
+          
+          //ВАЖНО!!! надо вынести перезапись, аргументы отправлять с хостом как дополнение
+          
             //если аргумент указан, перезаписываем стимайди
             if(hostcheck === 0) {
                 if (args[0] !=null) {
