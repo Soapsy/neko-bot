@@ -1,0 +1,5 @@
+1)fix timer reset at host.js
+2)split to modules
+3)share hosting
+4)do something about private steam
+5)memes
