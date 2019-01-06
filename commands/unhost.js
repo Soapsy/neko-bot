@@ -1,6 +1,6 @@
 exports.run = (client, message, args) => {
     if (message.author.bot)return;
-    if (message.guild.channels.some(chan => chan.name === "host-list")) {
+     if (message.guild.channels.some(chan => chan.name === "host-list")) {
         const sqlite3 = require('sqlite3').verbose();
         let db = new sqlite3.Database('./.data/profiles.db', (err) => {
             if (err) {

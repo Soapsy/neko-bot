@@ -5,13 +5,17 @@ if (message.author.bot)return;
 
   
 if (message.guild.channels.some(chan => chan.name === "host-list")) {
-    const hostchannel = message.guild.channels.find(channl => channl.name === "host-list");
+
+    //зависимости
+    require('dotenv').config();
     const request = require('request');
-    const steamToken = process.env.STEAMAPI;
-    let rawr;
     const sqlite3 = require('sqlite3').verbose();
 
-    //открываем бд,если её нет - создаем новую
+    const hostchannel = message.guild.channels.find(channl => channl.name === "host-list");
+    const steamToken = process.env.STEAMAPI;
+    var boober;
+
+    //открываем бд
     let db = new sqlite3.Database('./.data/profiles.db', (err) => {
         if (err) {
             console.error(err.message);
@@ -19,100 +23,83 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
         console.log('Connected to the database');
     });
 
-    
 
-    var boober;
-  
-  //строгий порядок выполнения действий с бд
+    //бд сиквенс
     db.serialize(() => {
 
         // ебашим таблицу если её нет
         db.run('CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, user TEXT, guild TEXT, hosting TEXT, steam TEXT)');
 
-      //переменная для проверки состояния хоста
-		var hostcheck = 0;
+        let existsUs;
+        db.get(`SELECT * FROM users WHERE id = ?`,[message.author.id], (err, res) => {
+            console.log(`Completed row is ${res}`);
+            if (err) {
+                console.error(err.message);
+            }
+            if(res==0 || res==null){
+                existsUs = 0;
+                console.log("Id not found");
+                message.channel.send("You dont have steam ID set. Please use \n``!register [steamurl]``").catch(console.error);
+                //закрываем дб если не найден айди
+                db.close((err) => {
+                    if (err) {
+                        return console.error(err.message);
+                    }
+                    console.log('Database closed.');
+                });
+            }
+            else if (res) {
+                console.log("Id found");
+                //проверка на активный хост
+                var hostcheck = 0;
+                db.get(`SELECT DISTINCT hosting hoststate FROM users WHERE id = ?`, [message.author.id], (err, rows) => {
+                    if (err) {
+                        console.error(err);
+                    }
+                    if (rows.hoststate == '1') {
+                        hostcheck = 1;
+                        message.channel.send("You're already hosting.").then(msg => {
+                            msg.delete(10000)
+                        }).catch(console.error);
+                        db.close((err) => {
+                            if (err) {
+                                return console.error(err.message);
+                            }
+                            console.log('Database closed.');
+                        });
+                    }
 
-//проверяем хостит ли данный пользователь
-        db.all(`SELECT DISTINCT hosting hoststate FROM users WHERE id = ?`, [message.author.id], (err, rows) => {
-            rows.forEach((row) => {
-                if(err){console.error(err);}
-                if(row.hoststate == '1') {
-                    hostcheck = 1;
-                    message.channel.send("You're already hosting.").then(msg => {
-                        msg.delete(10000)
-                    }).catch(console.error);
-                    db.close((err) => {
-                        if (err) {
-                            return console.error(err.message);
-                        }
-                        console.log('Database closed.');
-                    });
-                }
-            });
-            //const regex = /\s*\d*\s*/g;
-          
-          //ВАЖНО!!! надо вынести перезапись, аргументы отправлять с хостом как дополнение
-          
-            //если аргумент указан, перезаписываем стимайди
-            if(hostcheck === 0) {
-                if (args[0] !=null) {
+                    //const regex = /\s*\d*\s*/g; -- я забыл че это
 
-                    let setUser = `INSERT OR REPLACE INTO users (id, user, guild, hosting, steam) VALUES (?, ?, ?, ?, ?)`;
+                    if (hostcheck === 0) {
 
-                    //обновляем строку юзера или создаем новую, если её нет
-                    db.run(setUser, [message.author.id, message.member.displayName, message.guild.name, `0`, args[0]], (err) => {
-                        if (err) {
-                            console.error(err.message);
-                            db.close((err) => {
-                                if (err) {
-                                    return console.error(err.message);
-                                }
-                                console.log('SQL closed when trying to set user.');
-                            });
-                        }
-                        console.log("args are here, user set");
-                    });
-                }
-                    let sql = `SELECT DISTINCT id usercode, user userName, hosting hoststat, steam steamid FROM users WHERE id = ?`;
-                    //получаем стимайди юзера
-                    db.all(sql, [message.author.id], (err, rows) => {
-                        if (err) {
-                            throw err;
-                        }
-                        rows.forEach((row) => {
-                            if (row.steamid === null) {
-                                message.channel.message.send("Please specify steam ID").then(msg => {
-                                    msg.delete(10000)
-                                }).catch(console.error);
-                                //закрываем дб если не найден айди
-                                db.close((err) => {
-                                    if (err) {
-                                        return console.error(err.message);
-                                    }
-                                    console.log('Database closed.');
-                                });
-                            } else {
-                                console.log(row.steamid);
-                                boober = steamsetup(row.steamid, row.userName, row.usercode);
+                        let sql = `SELECT DISTINCT id usercode, user userName, steam steamid, guild home FROM users WHERE id = ?`;
+                        //получаем стимайди юзера
+                        db.get(sql, [message.author.id], (err, rows) => {
+                            if (err) {
+                                throw err;
+                            }
+                                console.log(rows.steamid);
+                                boober = steamsetup(rows.steamid, rows.userName, rows.usercode, rows.home);
                                 /* db.close((err) => {
                                      if (err) {
                                          return console.error(err.message);
                                      }
                                      console.log('Database closed.');
                                  });*/
-                            }
                         });
-                    });
 
+                    }
+
+                });
             }
-
         });
+        var timerId;
+        var reqPath;
 
-
-
-        function steamsetup(aaa, bbb, ccc) {
+        function steamsetup(aaa, bbb, ccc, ddd) {
             console.log("Boob Returned: " + aaa);
-            var reqPath = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=' +
+            reqPath = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=' +
                 steamToken + '&format=json&steamids=' + aaa;
             console.log(reqPath);
 
@@ -146,17 +133,80 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                     }).catch(console.error);
                     return;
                 }
-                link = `<@${ccc}> made a lobby for **${game}**! \nTo join please follow:  steam://joinlobby/${gameID}/${lobby}/${userID} `;
+                let notes = args.join(" ");
+                link = `<@${ccc}> made a lobby for **${game}**! \nTo join please follow:  steam://joinlobby/${gameID}/${lobby}/${userID} \n *sent from ${message.guild.name}*\n${notes}`;
                 console.log(link);
                 db.all(`UPDATE users SET hosting = '1' WHERE id = ?`, [message.author.id], (err) => {
                     if (err) console.error(err);
                     console.log("set host");
                 });
                 hostchannel.send(link).catch(console.error);
+                timerId = setInterval(checker, 600000);
+
                 console.log('lobby link:  steam://joinlobby/' + body.response.players[0].gameid + '/' + body.response.players[0].lobbysteamid + '/' + body.response.players[0].steamid + ' Game: ' + body.response.players[0].gameextrainfo)
 
             });
         }
+
+        function checker(){
+            request(reqPath, {json: true}, function (error, response, body) {
+                console.log('error:', error);
+                console.log('statusCode:', response && response.statusCode);
+                console.log('body:', body);
+                if (response.statusCode !== 200) {
+                    message.channel.send("Connection failed").then(msg => {
+                        msg.delete(10000)
+                    }).catch(console.error);
+                    return;
+                }
+                let lobbe = body.response.players[0].lobbysteamid;
+                if(!lobbe){
+                    unhoster(timerId);
+                }
+        });
+        }
+
+        function unhoster(tmr){
+            db.serialize(() => {
+                db.get(`SELECT DISTINCT hosting hoststate FROM users WHERE id = ?`, [message.author.id], (err, rows) => {
+                    if (err) {
+                        console.error(err);
+                    } else if (rows.hoststate === `0`) {
+                        db.close((err) => {
+                            if (err) {
+                                return console.error(err.message);
+                            }
+                            console.log('Database closed.');
+                        });
+                        clearTimeout(tmr);
+                        return;
+                    }
+                    db.all(`UPDATE users SET hosting = '0' WHERE id =?`, [message.author.id], (err) => {
+
+                        if (err) {
+                            console.error(err);
+                        } else {
+                            let usid = message.author.id;
+                            const hostchannel = message.guild.channels.find(channl => channl.name === "host-list");
+                            hostchannel.fetchMessages()
+                                .then(messages => (messages.find(val => val.content.includes(`<@${usid}> made a lobby for`))).delete()
+                                    .catch(console.error));
+                            message.channel.send(`${message.author.username} has stopped hosting.`).then(msg => {
+                                msg.delete(10000)
+                            }).catch(console.error);
+                            clearTimeout(tmr);
+                            db.close((err) => {
+                                if (err) {
+                                    return console.error(err.message);
+                                }
+                                console.log('Database closed.');
+                            });
+                        }
+                    });
+                });
+            });
+        }
+
     });
 }else {
 		message.channel.send("No host-list set. Please use !setchannels or create it manually.").then(msg => {
