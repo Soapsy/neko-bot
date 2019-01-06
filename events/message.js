@@ -22,7 +22,7 @@ const chan = message.channel;
 
   //Присваивание счетчика ролей
         if (chan.type === "text" && chan.name.toLowerCase() === "role-management") {
-            const roleObj = message.guild.roles.find(r => message.content.includes(r.name));
+            const roleObj = message.guild.roles.find(r => message.content.includes(r.id));
             if (roleObj) {
                 message.react("✅");
                 console.log("Role created");
