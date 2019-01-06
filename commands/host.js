@@ -134,14 +134,14 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                     return;
                 }
                 let notes = args.join(" ");
-                link = `<@${ccc}> made a lobby for **${game}**! \nTo join please follow:  steam://joinlobby/${gameID}/${lobby}/${userID} \n *sent from ${message.guild.name}*\n${notes}`;
+                link = `**${nickname}** made a lobby for **${game}**! \nTo join please follow:  steam://joinlobby/${gameID}/${lobby}/${userID} \n *sent from ${message.guild.name}*\n${notes}`;
                 console.log(link);
                 db.all(`UPDATE users SET hosting = '1' WHERE id = ?`, [message.author.id], (err) => {
                     if (err) console.error(err);
                     console.log("set host");
                 });
                 hostchannel.send(link).catch(console.error);
-                timerId = setInterval(checker, 600000);
+                timerId = setInterval(checker, 60000);
 
                 console.log('lobby link:  steam://joinlobby/' + body.response.players[0].gameid + '/' + body.response.players[0].lobbysteamid + '/' + body.response.players[0].steamid + ' Game: ' + body.response.players[0].gameextrainfo)
 
@@ -194,8 +194,8 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                             hostchannel.fetchMessages()
                                 .then(messages => (messages.find(val => val.content.includes(`<@${usid}> made a lobby for`))).delete()
                                     .catch(console.error));
-                            message.channel.send(`${message.author.username} has stopped hosting.`).then(msg => {
-                                msg.delete(10000)
+                            hostchannel.send(`**${message.author.username}** has stopped hosting.`).then(msg => {
+                                msg.delete(300000)
                             }).catch(console.error);
                             clearTimeout(tmr);
                             db.close((err) => {
