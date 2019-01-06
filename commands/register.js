@@ -20,12 +20,20 @@ exports.run = (client, message, args) => {
     if ((args[0] != null) && (reg2.test(args[0]))) {
 
         inputid = args[0].slice(36).trim();
+        let lastChar = inputid[inputid.length -1];
+            if (lastChar == `/`){
+              inputid = inputid.slice(0, -1);
+            }
         console.log(`Everything is fine. Continuing to registration function`);
         registration(inputid);
     }
     else if((args[0] != null) && (reg1.test(args[0]))) {
             //конверсия айди
             inputid = args[0].slice(30).trim();
+            let lastChar = inputid[inputid.length -1];
+            if (lastChar == `/`){
+              inputid = inputid.slice(0, -1);
+            }
             request(`http://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${steamToken}&vanityurl=${inputid}`,
                 {json: true}, function (error, response, body) {
                     console.log('error:', error);
