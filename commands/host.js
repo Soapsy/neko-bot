@@ -159,8 +159,10 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                     }).catch(console.error);
                     return;
                 }
+              console.log("Check happened");
                 let lobbe = body.response.players[0].lobbysteamid;
                 if(!lobbe){
+                  console.log("Lobby unfound, unhosting");
                     unhoster(timerId);
                 }
         });
@@ -168,6 +170,7 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
 
         function unhoster(tmr){
             db.serialize(() => {
+              console.log("Unhosting");
                 db.get(`SELECT DISTINCT hosting hoststate FROM users WHERE id = ?`, [message.author.id], (err, rows) => {
                     if (err) {
                         console.error(err);
