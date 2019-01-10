@@ -192,7 +192,7 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                             let usid = message.author.id;
                             const hostchannel = message.guild.channels.find(channl => channl.name === "host-list");
                             hostchannel.fetchMessages()
-                                .then(messages => (messages.find(val => val.content.includes(`<@${usid}> made a lobby for`))).delete()
+                                .then(messages => (messages.find(val => val.content.includes(`<@${usid}> made a lobby for`))).delete().catch(err)
                                     .catch(console.error));
                             hostchannel.send(`**${message.author.username}** has stopped hosting.`).then(msg => {
                                 msg.delete(300000)
