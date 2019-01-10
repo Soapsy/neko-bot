@@ -27,7 +27,7 @@ exports.run = (client, message, args) => {
                     else{db.all(`UPDATE users SET hosting = '0' WHERE id =?`,[message.author.id], (err) =>
                     {if(err){console.error(err);}
                     else{
-                        let usid = message.author.id;
+                        let usid = message.author.username;
                         glds.tap(unHost => {
                           let nya;
                                 if(unHost.channels.some(chan => chan.name === "host-list"))
@@ -35,23 +35,19 @@ exports.run = (client, message, args) => {
                                     let voof = unHost.channels.find(channl => channl.name === "host-list");
                                   
                                     voof.fetchMessages()
-                                        .then(messages => nya = (messages.find(val => val.content.includes(`<@${usid}> made a lobby for`)))
-                                            .catch(console.error));
+                                        .then(messages => nya = messages.find(val => val.content.includes(`**${usid}** made a lobby for`)))
+                                          .catch(console.error)
                                 }
                           if(nya)
-                          {nya.delete().catch(console.error);}
+                          {nya.delete().catch(console.error);
+                          console.log("yes nya");}
+                          else{console.log("No nya");}
                           
                             }
                         );
                         message.channel.send("Unhosted.").then(msg => {
                             msg.delete(10000)
                         }).catch(console.error);
-                        db.close((err) => {
-                            if (err) {
-                                return console.error(err.message);
-                            }
-                            console.log('Database closed.');
-                        });
                     }
                     })
                     }

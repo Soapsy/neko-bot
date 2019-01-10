@@ -126,7 +126,7 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                 game = body.response.players[0].gameextrainfo;
                 gameID = body.response.players[0].gameid;
                 lobby = body.response.players[0].lobbysteamid;
-                nickname = bbb;
+                nickname = message.author.username;
                 const usrMsg = args.join(" ");
                 if (!(game) || !(gameID) || !(lobby)) {
                     message.channel.send("Lobby is not available. Make sure your steam profile is not private or add https://steamcommunity.com/id/sosoap to your friends").then(msg => {
