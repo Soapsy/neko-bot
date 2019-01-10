@@ -15,6 +15,7 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
     const steamToken = process.env.STEAMAPI;
     var boober;
 
+    let glds = client.guilds;
     //открываем бд
     let db = new sqlite3.Database('./.data/profiles.db', (err) => {
         if (err) {
@@ -140,15 +141,21 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                     if (err) console.error(err);
                     console.log("set host");
                 });
-                hostchannel.send(link).catch(console.error);
-                timerId = setInterval(checker, 60000);
-
+                glds.tap(setHost => {
+                    if(setHost.channels.some(chan => chan.name === "host-list"))
+                    {
+                        let voof = setHost.channels.find(channl => channl.name === "host-list");
+                        voof.send(link).catch(console.error);
+                    }
+                }
+                );
+                message.channel.send("Host successful").catch(console.error);
                 console.log('lobby link:  steam://joinlobby/' + body.response.players[0].gameid + '/' + body.response.players[0].lobbysteamid + '/' + body.response.players[0].steamid + ' Game: ' + body.response.players[0].gameextrainfo)
 
             });
         }
 
-        function checker(){
+        /*function checker(){
             request(reqPath, {json: true}, function (error, response, body) {
                 console.log('error:', error);
                 console.log('statusCode:', response && response.statusCode);
@@ -208,9 +215,9 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                     });
                 });
             });
-        }
+        }*/
 
-    });
+    }); 
 }else {
 		message.channel.send("No host-list set. Please use !setchannels or create it manually.").then(msg => {
             msg.delete(10000)
