@@ -35,18 +35,18 @@ exports.run = (client, message, args) => {
                                     let voof = unHost.channels.find(channl => channl.name === "host-list");
                                   
                                     voof.fetchMessages()
-                                        .then(messages => nya = messages.find(val => val.content.includes(`**${usid}** made a lobby for`)))
+                                        .then(messages => (messages.find(val => val.content.includes(`**${usid}** made a lobby`))).delete())
                                           .catch(console.error)
                                 }
-                          if(nya)
+                         /* if(nya)
                           {nya.delete().catch(console.error);
                           console.log("yes nya");}
-                          else{console.log("No nya");}
+                          else{console.log("No nya");}*/
                           
                             }
                         );
                         message.channel.send("Unhosted.").then(msg => {
-                            msg.delete(10000)
+                            msg.delete(60000)
                         }).catch(console.error);
                     }
                     })
