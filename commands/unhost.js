@@ -29,7 +29,6 @@ exports.run = (client, message, args) => {
                     else{
                         let usid = message.author.username;
                         glds.tap(unHost => {
-                          let nya;
                                 if(unHost.channels.some(chan => chan.name === "host-list"))
                                 {
                                     let voof = unHost.channels.find(channl => channl.name === "host-list");
@@ -39,11 +38,7 @@ exports.run = (client, message, args) => {
                                       for(const[key, value] of messages.entries())
                                         {
                                                let emb = value.embeds;
-                                          console.log(emb);
-                                          console.log(emb[2]);
-                                          console.log(emb[4]);
-                                          console.log(emb[]);
-                                                if(emb.author.name==message.author.username)
+                                                if(emb[0].author.name==message.author.username)
                                                 {
                                                   console.log("IT EXISTS");
                                                   voof.fetchMessage(key)

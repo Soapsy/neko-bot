@@ -139,11 +139,12 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
               const randclr = Math.floor(Math.random() * 16777214) + 1;
               const linkpath = `steam://joinlobby/${gameID}/${lobby}/${userID}`
               link = new Discord.RichEmbed()
-                .setTitle(`Is hosting a lobby for ${game}`)
+                .setTitle(`is hosting a lobby for ${game}`)
                 .setColor(randclr)
                 //.setThumbnail(message.member.user.avatarURL)
-                .setDescription(`\nClick the link below to join!\n${linkpath}`)
-                .setAuthor(nickname, message.member.user.avatarURL)
+                .setDescription(`\n \nClick the link below to join!\n${linkpath}`)
+                .setAuthor(nickname)
+                .setThumbnail(message.member.user.avatarURL)
                 .setFooter(message.guild.name, message.guild.iconURL);
                 //link = `**${nickname}** made a lobby for **${game}**! \nTo join please follow:  steam://joinlobby/${gameID}/${lobby}/${userID} \n *sent from ${message.guild.name}*\n${notes}`;
                 console.log(link);
