@@ -35,9 +35,16 @@ exports.run = (client, message, args) => {
                                     let voof = unHost.channels.find(channl => channl.name === "host-list");
                                   
                                     voof.fetchMessages()
-                                        .then(messages => messages.tap(vyf => 
-                                                                       {
-                                                                          
+                                        .then(messages => messages.tap(vyf => {
+                                            if(vyf.embeds)
+                                              {
+                                               let emb = vyf.embeds;
+                                                if(emb.author==message.author.username)
+                                                {
+                                                  vyf.delete().catch(console.error);
+                                                }
+                                              }
+                                    }))
                                               
                                               
                                               //(messages.find(val => let a = val.embeds (`**${usid}** made a lobby`))).delete())

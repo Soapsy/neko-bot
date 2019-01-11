@@ -130,7 +130,7 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                 nickname = message.author.username;
                 const usrMsg = args.join(" ");
                 if (!(game) || !(gameID) || !(lobby)) {
-                    message.channel.send("Lobby is not available. Make sure your steam Games are not private or add\n ``https://steamcommunity.com/id/sosoap``\nto your friends").then(msg => {
+                    message.channel.send("Lobby is not available. Make sure your steam Games tab is public or add\n ``https://steamcommunity.com/id/sosoap``\nto your friends").then(msg => {
                         msg.delete(60000)
                     }).catch(console.error);
                     return;
