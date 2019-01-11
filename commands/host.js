@@ -135,7 +135,15 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                     return;
                 }
                 let notes = args.join(" ");
-                link = `**${nickname}** made a lobby for **${game}**! \nTo join please follow:  steam://joinlobby/${gameID}/${lobby}/${userID} \n *sent from ${message.guild.name}*\n${notes}`;
+              const randclr = Math.floor(Math.random() * 16777214) + 1;
+              link = new Discord.RichEmbed()
+                .setTitle(`Is hosting a lobby for ${game}`)
+                .setColor(randclr)
+                //.setThumbnail(message.member.user.avatarURL)
+                .setDescription(`\nClick [here](steam://joinlobby/${gameID}/${lobby}/${userID}) to join!`)
+                .setAuthor(${nickname}, client.user.avatarURL)
+                .setFooter(`Теперь нас  ${member.guild.memberCount}`);
+                //link = `**${nickname}** made a lobby for **${game}**! \nTo join please follow:  steam://joinlobby/${gameID}/${lobby}/${userID} \n *sent from ${message.guild.name}*\n${notes}`;
                 console.log(link);
                 db.all(`UPDATE users SET hosting = '1' WHERE id = ?`, [message.author.id], (err) => {
                     if (err) console.error(err);

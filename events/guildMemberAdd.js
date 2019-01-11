@@ -1,5 +1,6 @@
 exports.run = (client, member, user) => {
 const Discord = require(`discord.js`);
+if(member.guild.id != process.env.HOMESERVER)return;
 const channel = member.guild.channels.find(ch => ch.name === 'general');
 if (!channel || !member) return;
   const randclr = Math.floor(Math.random() * 16777214) + 1;
