@@ -38,31 +38,15 @@ exports.run = (client, message, args) => {
                                         .then(messages => {
                                       for(const[key, value] of messages.entries())
                                         {
-                                          if(value.embeds)
-                                              {
                                                let emb = value.embeds;
-                                                if(emb.author==message.author.username)
+                                          console.log(emb);
+                                                if(emb.author.name==message.author.username)
                                                 {
-                                                  delete().catch(console.error);
+                                                  value.delete().catch(console.error);
                                                 }
-                                              }
+                                              
                                         }
-                                              
-                                              //messages.tap(vyf => {
-                                      console.log(vyf);
-                                      console.log(vyf.message.content);
-                                            if(vyf.embeds)
-                                              {
-                                               let emb = vyf.message.embeds;
-                                                if(emb.author==message.author.username)
-                                                {
-                                                  vyf.message.delete().catch(console.error);
-                                                }
-                                              }
-                                    }))
-                                              
-                                              
-                                              //(messages.find(val => let a = val.embeds (`**${usid}** made a lobby`))).delete())
+                                    })
                                           .catch(console.error)
                                 }
                          /* if(nya)

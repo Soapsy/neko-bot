@@ -142,7 +142,7 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                 .setTitle(`Is hosting a lobby for ${game}`)
                 .setColor(randclr)
                 //.setThumbnail(message.member.user.avatarURL)
-                .setDescription(`\nClick [here](linkpath) to join!`)
+                .setDescription(`\nClick [here](${linkpath}) to join!`)
                 .setAuthor(nickname, message.member.user.avatarURL)
                 .setFooter(message.guild.name, message.guild.iconURL);
                 //link = `**${nickname}** made a lobby for **${game}**! \nTo join please follow:  steam://joinlobby/${gameID}/${lobby}/${userID} \n *sent from ${message.guild.name}*\n${notes}`;
