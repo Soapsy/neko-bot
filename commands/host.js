@@ -10,6 +10,7 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
     require('dotenv').config();
     const request = require('request');
     const sqlite3 = require('sqlite3').verbose();
+    const Discord = require('discord.js');
 
     const hostchannel = message.guild.channels.find(channl => channl.name === "host-list");
     const steamToken = process.env.STEAMAPI;
@@ -141,8 +142,8 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                 .setColor(randclr)
                 //.setThumbnail(message.member.user.avatarURL)
                 .setDescription(`\nClick [here](steam://joinlobby/${gameID}/${lobby}/${userID}) to join!`)
-                .setAuthor(${nickname}, client.user.avatarURL)
-                .setFooter(`Теперь нас  ${member.guild.memberCount}`);
+                .setAuthor(nickname, message.member.user.avatarURL)
+                .setFooter(message.guild.name, message.guild.iconURL);
                 //link = `**${nickname}** made a lobby for **${game}**! \nTo join please follow:  steam://joinlobby/${gameID}/${lobby}/${userID} \n *sent from ${message.guild.name}*\n${notes}`;
                 console.log(link);
                 db.all(`UPDATE users SET hosting = '1' WHERE id = ?`, [message.author.id], (err) => {
