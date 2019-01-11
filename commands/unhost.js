@@ -35,7 +35,20 @@ exports.run = (client, message, args) => {
                                     let voof = unHost.channels.find(channl => channl.name === "host-list");
                                   
                                     voof.fetchMessages()
-                                        .then(messages => messages.tap(vyf => {
+                                        .then(messages => {
+                                      for(const[key, value] of messages.entries())
+                                        {
+                                          if(value.embeds)
+                                              {
+                                               let emb = value.embeds;
+                                                if(emb.author==message.author.username)
+                                                {
+                                                  delete().catch(console.error);
+                                                }
+                                              }
+                                        }
+                                              
+                                              //messages.tap(vyf => {
                                       console.log(vyf);
                                       console.log(vyf.message.content);
                                             if(vyf.embeds)
