@@ -1,4 +1,5 @@
 exports.run = (client, message, args) => {
+  if(message.guild.id != process.env.HOMESERVER)return;
   const config = require('../config.json');
     if (message.author.id === config.ownerID) {
         if ((message.guild.channels.some(chan => chan.name === "role-management")) || (message.guild.channels.some(chan => chan.name === "host-list"))) {

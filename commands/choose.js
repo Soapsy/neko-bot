@@ -1,4 +1,5 @@
 exports.run = (client, message, args) => {
+  if(message.guild.id != process.env.HOMESERVER)return;
     const leng = args.length;
     const rnd = Math.floor(Math.random() * (leng - 0));
     const wuw = rnd;

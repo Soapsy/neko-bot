@@ -4,7 +4,7 @@ const prefix = config.prefix;
 const chan = message.channel;
 
   //реакшены
-    if (!message.author.bot) {
+    if (!message.author.bot &&) {
         const o = require('../data/reacts.json');
         console.log(o['a\*']);
         const reactions = Object.keys(o).map(regexp => ({regexp: new RegExp(regexp), text: o[regexp]}));

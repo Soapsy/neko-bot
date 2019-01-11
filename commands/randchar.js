@@ -1,4 +1,5 @@
 exports.run = (client, message, args) => {
+  if(message.guild.id != process.env.HOMESERVER)return;
 	const randcha = require('../data/chars.json');
 	console.log(randcha);
 	const leng = randcha.length + 1;

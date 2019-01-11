@@ -1,4 +1,5 @@
 exports.run = (client, message, args) => {
+  if(message.guild.id != process.env.HOMESERVER)return;
   if(args[0] && !message.author.bot)
   {
     
