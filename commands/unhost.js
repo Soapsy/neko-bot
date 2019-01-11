@@ -36,12 +36,16 @@ exports.run = (client, message, args) => {
                                   
                                     voof.fetchMessages()
                                         .then(messages => messages.tap(vyf => {
+                                      console.log(vyf);
+                                      console.log(vyf.content);
+                                      console.log(vyf.id);
+                                      console.log(vyf.message.content);
                                             if(vyf.embeds)
                                               {
-                                               let emb = vyf.embeds;
+                                               let emb = vyf.message.embeds;
                                                 if(emb.author==message.author.username)
                                                 {
-                                                  vyf.delete().catch(console.error);
+                                                  vyf.message.delete().catch(console.error);
                                                 }
                                               }
                                     }))
