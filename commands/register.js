@@ -15,7 +15,7 @@ exports.run = (client, message, args) => {
     });
 
     var reg1 = /https:\/\/steamcommunity\.com\/id\/(.+)$/;
-    var reg2 = /https:\/\/steamcommunity\.com\/profiles\/(\d+)$/;
+    var reg2 = /https:\/\/steamcommunity\.com\/profiles\/(\d+)\/?$/;
     var inputid;
     if ((args[0] != null) && (reg2.test(args[0]))) {
 

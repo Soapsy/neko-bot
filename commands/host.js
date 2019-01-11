@@ -142,7 +142,7 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                 .setTitle(`is hosting a lobby for ${game}`)
                 .setColor(randclr)
                 //.setThumbnail(message.member.user.avatarURL)
-                .setDescription(`\n \nClick the link below to join!\n${linkpath}`)
+                .setDescription(`\n \nClick the link below to join!\n${linkpath}\n${notes}`)
                 .setAuthor(nickname)
                 .setThumbnail(message.member.user.avatarURL)
                 .setFooter(message.guild.name, message.guild.iconURL);
