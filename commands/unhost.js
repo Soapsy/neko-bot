@@ -40,9 +40,15 @@ exports.run = (client, message, args) => {
                                         {
                                                let emb = value.embeds;
                                           console.log(emb);
+                                          console.log(emb[2]);
+                                          console.log(emb[4]);
+                                          console.log(emb[]);
                                                 if(emb.author.name==message.author.username)
                                                 {
-                                                  value.delete().catch(console.error);
+                                                  console.log("IT EXISTS");
+                                                  voof.fetchMessage(key)
+                                                  .then(messag => messag.delete())
+                                                  .catch(console.error);
                                                 }
                                               
                                         }
