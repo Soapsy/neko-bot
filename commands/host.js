@@ -111,14 +111,14 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                 console.log('body:', body);
                 if (response.statusCode !== 200) {
                     message.channel.send("Connection failed").then(msg => {
-                        msg.delete(10000)
+                        msg.delete(60000)
                     }).catch(console.error);
                     return;
                 }
                 if (body.response.players.length === 0) {
                     console.log("wrong");
                     message.channel.send("Incorrect user ID").then(msg => {
-                        msg.delete(10000)
+                        msg.delete(60000)
                     }).catch(console.error);
                     return;
                 }
@@ -129,8 +129,8 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                 nickname = message.author.username;
                 const usrMsg = args.join(" ");
                 if (!(game) || !(gameID) || !(lobby)) {
-                    message.channel.send("Lobby is not available. Make sure your steam profile is not private or add https://steamcommunity.com/id/sosoap to your friends").then(msg => {
-                        msg.delete(10000)
+                    message.channel.send("Lobby is not available. Make sure your steam Games are not private or add\n ``https://steamcommunity.com/id/sosoap``\nto your friends").then(msg => {
+                        msg.delete(60000)
                     }).catch(console.error);
                     return;
                 }
@@ -149,7 +149,9 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                     }
                 }
                 );
-                message.channel.send("Host successful").catch(console.error);
+                message.channel.send("Host created.").then(msg => {
+                            msg.delete(60000)
+                        }).catch(console.error);
                 console.log('lobby link:  steam://joinlobby/' + body.response.players[0].gameid + '/' + body.response.players[0].lobbysteamid + '/' + body.response.players[0].steamid + ' Game: ' + body.response.players[0].gameextrainfo)
 
             });
@@ -220,7 +222,7 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
     }); 
 }else {
 		message.channel.send("No host-list set. Please use !setchannels or create it manually.").then(msg => {
-            msg.delete(10000)
+            msg.delete(60000)
         }).catch(console.error);
 	}
 }

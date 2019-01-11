@@ -4,7 +4,8 @@ const prefix = config.prefix;
 const chan = message.channel;
 
   //реакшены
-    if (!message.author.bot &&) {
+    if (!message.author.bot) {
+      if(message.guild.id == process.env.HOMESERVER){
         const o = require('../data/reacts.json');
         console.log(o['a\*']);
         const reactions = Object.keys(o).map(regexp => ({regexp: new RegExp(regexp), text: o[regexp]}));
@@ -19,6 +20,7 @@ const chan = message.channel;
             }
             reactions.forEach(({regexp, text}) => regexp.test(message_text) ? message.channel.send(text).catch(console.error) : console.log("no"));
         }
+      }
 
   //Присваивание счетчика ролей
         if (chan.type === "text" && chan.name.toLowerCase() === "role-management") {
