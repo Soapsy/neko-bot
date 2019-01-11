@@ -34,21 +34,21 @@ exports.run = (client, message, args) => {
                                     let voof = unHost.channels.find(channl => channl.name === "host-list");
                                   
                                     voof.fetchMessages()
-                                        .then(messages => {
-                                      for(const[key, value] of messages.entries())
-                                        {
-                                               let emb = value.embeds;
-                                                if(emb[0].author.name==message.author.username)
+                                        .then (messages => {
+                                          for (const[key, value] of messages.entries())
+                                            {
+                                              let emb = value.embeds;
+                                              if(emb[0].author.name==message.author.username)
                                                 {
                                                   console.log("IT EXISTS");
                                                   voof.fetchMessage(key)
-                                                  .then(messag => messag.delete())
-                                                  .catch(console.error);
+                                                      .then(messag => messag.delete())
+                                                      .catch(console.error);
                                                 }
-                                              
-                                        }
-                                    })
-                                          .catch(console.error)
+
+                                            }
+                                        })
+                                        .catch(console.error)
                                 }
                          /* if(nya)
                           {nya.delete().catch(console.error);
