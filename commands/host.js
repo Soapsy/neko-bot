@@ -168,14 +168,16 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                     if (err) {
                         console.error(err.message);
                     }
-                    timerId = setinterval(checker, 600000);
+                  console.log("Set hoster");
+                   // timerId = setInterval(checker, 600000);
                 });
                 console.log('lobby link:  steam://joinlobby/' + body.response.players[0].gameid + '/' + body.response.players[0].lobbysteamid + '/' + body.response.players[0].steamid + ' Game: ' + body.response.players[0].gameextrainfo)
 
             });
         }
+      /*
 
-        /*function checker(){
+        function checker(){
             request(reqPath, {json: true}, function (error, response, body) {
                 console.log('error:', error);
                 console.log('statusCode:', response && response.statusCode);
