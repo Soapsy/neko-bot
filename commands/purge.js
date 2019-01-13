@@ -1,5 +1,5 @@
 exports.run = (client, message, args) => {
-  if(message.guild.id != process.env.HOMESERVER)return;}
+  if(message.guild.id != process.env.HOMESERVER)return;
   const config = require('../config.json');
     if (message.author.id === config.ownerID) {
        const sqlite3 = require('sqlite3').verbose();
@@ -16,15 +16,9 @@ exports.run = (client, message, args) => {
                     if(err){console.error(err);}
                     else if(row.hoststate === `0`)
                     {
-                        db.close((err) => {
-                            if (err) {
-                                return console.error(err.message);
-                            }
-                            console.log('Database closed.');
-                        });
                       return;
                     }
-                  else{db.all(`UPDATE users SET hosting = '0'`,[, (err) =>
+                  else{db.all(`UPDATE users SET hosting = '0'`,[], (err) =>
                     {if(err){console.error(err);}
                     else{
                         glds.tap(unHost => {
@@ -56,10 +50,9 @@ exports.run = (client, message, args) => {
                         }).catch(console.error);
                     }
                     })
-                    }
-                    })
+                    
+                              }
             });
         });
-    }
-}
-      
+    });
+}}
