@@ -31,7 +31,7 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
 
         // ебашим таблицу если её нет
         db.run('CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, user TEXT, guild TEXT, hosting TEXT, steam TEXT)');
-
+        db.run('CREATE TABLE IF NOT EXISTS hosters (id TEXT PRIMARY KEY, user TEXT, hostlink TEXT)');
         let existsUs;
         db.get(`SELECT * FROM users WHERE id = ?`,[message.author.id], (err, res) => {
             console.log(`Completed row is ${res}`);
@@ -163,6 +163,13 @@ if (message.guild.channels.some(chan => chan.name === "host-list")) {
                 message.channel.send("Host created.").then(msg => {
                             msg.delete(60000)
                         }).catch(console.error);
+                let setHoster = `INSERT OR REPLACE INTO hosters (id, user, hostlink) VALUES (?, ?, ?)`;
+                db.run(setHoster, [message.author.id, message.author.username, linkpath], (err) => {
+                    if (err) {
+                        console.error(err.message);
+                    }
+                    timerId = setinterval(checker, 600000);
+                });
                 console.log('lobby link:  steam://joinlobby/' + body.response.players[0].gameid + '/' + body.response.players[0].lobbysteamid + '/' + body.response.players[0].steamid + ' Game: ' + body.response.players[0].gameextrainfo)
 
             });
