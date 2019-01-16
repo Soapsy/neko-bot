@@ -14,10 +14,6 @@ exports.run = (client, message, args) => {
             db.all(`SELECT DISTINCT hosting hoststate FROM users`, [], (err, rows) => {
                 rows.forEach((row) => {
                     if(err){console.error(err);}
-                    else if(row.hoststate === `0`)
-                    {
-                      return;
-                    }
                   else{db.all(`UPDATE users SET hosting = '0'`,[], (err) =>
                     {if(err){console.error(err);}
                     else{
