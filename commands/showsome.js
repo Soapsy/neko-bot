@@ -1,5 +1,5 @@
 exports.run = (client, message, args) => {
-  //if(message.guild.id != process.env.HOMESERVER)return;
+  if((message.guild.id != process.env.HOMESERVER)||(message.channel.name!="art-nsfw"))return;
   if(!message.author.bot)
   {
     
