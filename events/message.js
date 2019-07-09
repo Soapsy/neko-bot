@@ -12,7 +12,7 @@ const chan = message.channel;
         console.log(reactions[0]);
         const message_text = message.content;
         console.log(message_text);
-        const rnd = Math.round(Math.floor(Math.random() * (11- 1)) + 1);
+        const rnd = Math.round(Math.floor(Math.random() * (100- 1)) + 1);
         if (rnd===9){
           message.channel.send("вот да").catch(console.error);
         }
