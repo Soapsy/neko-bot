@@ -1,4 +1,4 @@
-exports.run = (client, message) => {
+//exports.run = (client, message) => {
  const config = require('../config.json');
 const prefix = config.prefix;
 const chan = message.channel;
@@ -68,4 +68,4 @@ const chan = message.channel;
             console.error(err);
         }
     }
-}
+//}
