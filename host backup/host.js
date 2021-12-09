@@ -3,9 +3,8 @@ require('dotenv').config();
 
 if (message.author.bot)return;
 
-const hostchannel = "matchmaking" //имя канала для хостинга
- 
-if (message.guild.channels.some(chan => chan.name === hostchannel)) {
+  
+if (message.guild.channels.some(chan => chan.name === "matchmaking")) {
 
     //зависимости
     require('dotenv').config();
@@ -13,7 +12,7 @@ if (message.guild.channels.some(chan => chan.name === hostchannel)) {
     const sqlite3 = require('sqlite3').verbose();
     const Discord = require('discord.js');
 
-    const hostchannel = message.guild.channels.find(channl => channl.name === hostchannel);
+    const hostchannel = message.guild.channels.find(channl => channl.name === "host-list");
     const steamToken = process.env.STEAMAPI;
     var boober;
 
@@ -54,7 +53,7 @@ if (message.guild.channels.some(chan => chan.name === hostchannel)) {
             else if (res) {
                 console.log("Id found");
                 //проверка на активный хост
-                /*var hostcheck = 0;
+                var hostcheck = 0;
                 db.get(`SELECT DISTINCT hosting hoststate FROM users WHERE id = ?`, [message.author.id], (err, rows) => {
                     if (err) {
                         console.error(err);
@@ -71,8 +70,10 @@ if (message.guild.channels.some(chan => chan.name === hostchannel)) {
                             console.log('Database closed.');
                         });
                     }
-					*/
+
                     //const regex = /\s*\d*\s*/g; -- я забыл че это
+
+                    if (hostcheck === 0) {
 
                         let sql = `SELECT DISTINCT id usercode, user userName, steam steamid, guild home FROM users WHERE id = ?`;
                         //получаем стимайди юзера
@@ -90,14 +91,14 @@ if (message.guild.channels.some(chan => chan.name === hostchannel)) {
                                  });*/
                         });
 
+                    }
 
-                }
-            });
+                });
+            }
         });
-		
-		
-		//делаем запрос в стим и создаем ссылку
+        var timerId;
         var reqPath;
+
         function steamsetup(aaa, bbb, ccc, ddd) {
             console.log("Boob Returned: " + aaa);
             reqPath = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=' +
@@ -145,13 +146,12 @@ if (message.guild.channels.some(chan => chan.name === hostchannel)) {
                 .setThumbnail(message.member.user.avatarURL)
                 .setFooter(message.guild.name, message.guild.iconURL);
                 //link = `**${nickname}** made a lobby for **${game}**! \nTo join please follow:  steam://joinlobby/${gameID}/${lobby}/${userID} \n *sent from ${message.guild.name}*\n${notes}`;
-				/*
+                console.log(link);
                 db.all(`UPDATE users SET hosting = '1' WHERE id = ?`, [message.author.id], (err) => {
                     if (err) console.error(err);
                     console.log("set host");
-                });\
-				*/
-                /*glds.tap(setHost => {
+                });
+                glds.tap(setHost => {
                     if(setHost.channels.some(chan => chan.name === "host-list"))
                     {
                         let voof = setHost.channels.find(channl => channl.name === "host-list");
@@ -159,16 +159,14 @@ if (message.guild.channels.some(chan => chan.name === hostchannel)) {
                     }
                 }
                 );
-				*/
-                /*message.channel.send("Host created.").then(msg => {
+                message.channel.send("Host created.").then(msg => {
                             msg.delete(60000)
                         }).catch(console.error);
-				*/
-				if(message.channel.name === hostchannel)
+				if(message.channel.name === "matchmaking")
 				{
-					message.channel.send(link).catch(console.error);
+					message.channel.send(`Ссылка на лобби:\n${linkpath}`).catch(console.error);
 				}
-               /* let setHoster = `INSERT OR REPLACE INTO hosters (id, user, hostlink) VALUES (?, ?, ?)`;
+                let setHoster = `INSERT OR REPLACE INTO hosters (id, user, hostlink) VALUES (?, ?, ?)`;
                 db.run(setHoster, [message.author.id, message.author.username, linkpath], (err) => {
                     if (err) {
                         console.error(err.message);
@@ -176,7 +174,6 @@ if (message.guild.channels.some(chan => chan.name === hostchannel)) {
                   console.log("Set hoster");
                    // timerId = setInterval(checker, 600000);
                 });
-				*/
                 console.log('lobby link:  steam://joinlobby/' + body.response.players[0].gameid + '/' + body.response.players[0].lobbysteamid + '/' + body.response.players[0].steamid + ' Game: ' + body.response.players[0].gameextrainfo)
 
             });
@@ -247,7 +244,7 @@ if (message.guild.channels.some(chan => chan.name === hostchannel)) {
 
     }); 
 }else {
-		message.channel.send("Matchmaking not found").then(msg => {
+		message.channel.send("No host-list set. Please use !setchannels or create it manually.").then(msg => {
             msg.delete(60000)
         }).catch(console.error);
 	}
