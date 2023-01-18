@@ -1,9 +1,9 @@
-##Necobot-V2
+## Necobot-V2
 A simple discord bot.
 
 Has many functions, use !help command to view them, once you add it into your server.
 
-## Features:
+# Features:
 
 -- Random words and affirmations between user dialogues.
 
